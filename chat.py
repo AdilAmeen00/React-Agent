@@ -115,7 +115,7 @@ def main():
     #  meta-llama/Llama-2-13b-chat-hf
     # meta-llama/Llama-2-7b-chat-hf
     # bigscience/bloom-560m
-    model_id = 'meta-llama/Llama-2-7b-chat-hf'
+    model_id = 'bigscience/bloom-560m'
     device = f'cuda:{cuda.current_device()}' if cuda.is_available() else 'cpu'
 
     # Set quantization configuration to load large model with less GPU memory  - Cannot use quantization in Windows
