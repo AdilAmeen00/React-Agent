@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exl-Clairvoyant Assistant</title>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Lato', Arial, sans-serif;
+            color: #FCFCFC;
+            background-color: #FCFCFC;
+            height: 100vh;
+            background-image: linear-gradient(to bottom right, #FCFCFC , #FFF);
+        }
+        #chatbox {
+            width: 70%;
+            height: 75vh;
+            margin: 50px auto;
+            border: 1px solid #e3e3e3;
+            border-radius: 25px; /* rounds the border for chatbox */
+            background-color:  #FFF;
+            padding: 20px;
+            overflow-y: auto;
+            margin-bottom: 25px;
+        }
+        .input-group {
+            width: 70%;
+        }
+        .message-input {
+            width: 62%;
+            padding: 7px;
+            box-sizing: border-box;
+            margin: 10px auto;
+            border-radius: 4px;
+            border: 1px solid #bdbdbd;
+        }
+        h1 {
+            text-align: center;
+            color: #403F4C;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #bdbdbd;
+            border-radius: 4px;
+            background-color: #fff;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        select:focus {
+            border-color: #1976d2;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+        }
+        option {
+            padding: 4px
+        }
+        /* Style for user messages */
+        .user-message {
+            background-color: #eee;
+            color: #333;
+            text-align: left;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .user-query {
+            display: flex;
+            padding-right: 1rem;
+        }
+
+        /* Style for AI messages */
+        .ai-message {
+            background-color: #537188;
+            color: white;
+            text-align: left;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 0px 0px 5px 5px;
+            margin-bottom: 10px;
+            display: flex;
+        }
+        .ai-message span {
+            margin-right: 8px;
+        }
+        .user-tag {
+            display: inline-block;
+            margin-right: 40px;
+        }
+        .modal-tag {
+            background-color: #53718890;
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: #FCFCFC;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        .loader {
+            width: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <br>
+    <h1>L1 Support Assistant</h1>
+    <div id="chatbox">
+        <!-- <div class="user-message"><div class="user-query"><div class="user-tag"><b>User: </b></div><div style="word-break: break-word;">Uncomment to test the UI</div></div><div class="modal-tag">Vector</div></div>
+        <div class="ai-message"><span><b>Assistant: </b></span><img src="./three-dots.svg" class="loader"/></div>  -->
+    </div>
+    <div style="text-align: center;" >
+        <input id="input" class="message-input" type="text" placeholder="Type your query here"
+            onkeydown="if(event.keyCode==13)sendMessage()">
+        <select id="select-model"  name="modal" aria-placeholder="Select the model">
+            <option value="Vector">Vector</option>
+            <option value="Text">Text</option>
+            <option value="Improved LLM">Improved LLM</option>
+        </select>
+    </div>
+    </div>
+    <script>
+        var count = 1;
+        function sendMessage() {
+            count++;
+            var input = document.getElementById('input');
+            var chatbox = document.getElementById('chatbox');
+            var select = document.getElementById("select-model");
+            var message = input.value;
+            var model = select.value;
+            chatbox.innerHTML += '<div class="user-message"><div class="user-query"><div class="user-tag"><b>User: </b></div><div style="word-break: break-word;">'+ message +'</div></div><div class="modal-tag">'+model+'</div></div>'
+            setTimeout(function() {
+                chatbox.innerHTML += '<div class="ai-message" id="ai-message-' + count+ '"><span><b>Assistant: </b></span><img src="./three-dots.svg" class="loader"/><div class="ai-response"></div></div>'
+            }, 500);
+            input.value = '';
+            fetch('/chat', {
+                method: 'POST',
+                body: new URLSearchParams({'message': message}),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const aiMessage = document.getElementById('ai-message-'+count);
+                const loader = aiMessage.querySelector('.loader');
+                loader.style.display = 'none';
+                const aiResponse = aiMessage.querySelector('.ai-response');
+                aiResponse.textContent = data.response;
+                chatbox.scrollTop = chatbox.scrollHeight; // Scroll to the bottom to show the latest message
+            }).catch(() => {
+                setTimeout(function() {
+                    const response = `<p>We apologize, but it seems that our AI encountered an issue while generating a response. Our team of engineers has been notified and is working diligently to resolve the problem.</p>    
+                        <p>Thank you for your understanding, and we appreciate your patience as we work to improve our AI's performance.</p>`;
+                    const aiMessage = document.getElementById('ai-message-'+count);
+                    const loader = aiMessage.querySelector('.loader');
+                    loader.style.display = 'none';
+                    const aiResponse = aiMessage.querySelector('.ai-response');
+                    aiResponse.innerHTML = response;
+                    chatbox.scrollTop = chatbox.scrollHeight; // Scroll to the bottom to show the latest message
+                }, 5000);
+            });
+        }
+    </script>
+</body>
+</html>
