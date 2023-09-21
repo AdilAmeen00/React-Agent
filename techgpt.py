@@ -60,7 +60,7 @@ from constants import CHROMA_SETTINGS
 from torch import cuda, bfloat16
 import transformers
 
-def run_model(query):
+def run_model(query, model_app):
     #  'meta-llama/Llama-2-70b-chat-hf' ----x
     #  meta-llama/Llama-2-13b-chat-hf
     # meta-llama/Llama-2-7b-chat-hf
