@@ -206,7 +206,7 @@ def run_model(query, model_app):
     model1 = SentenceTransformer('paraphrase-MiniLM-L3-v2')
     embedding1 = model1.encode("this is sentence").tolist()
 
-    model_app = 'Structured Text'
+    model_app = 'Unstructured Text'
 
     if model_app == 'Structured Text':
         docs = db.similarity_search(query)
