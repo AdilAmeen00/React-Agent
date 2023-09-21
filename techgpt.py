@@ -201,6 +201,10 @@ def run_model(query):
     retriever=retriever, return_source_documents= not args.hide_source
     )
 
+    from sentence_transformers import SentenceTransformer
+
+    model1 = SentenceTransformer('paraphrase-MiniLM-L3-v2')
+    embedding1 = model1.encode("this is sentence").tolist()
 
     try:
     #    query_db = input(" \n Ask a query to your vector database: ")
@@ -219,7 +223,7 @@ def run_model(query):
         print(rag_answer, "\n")
         agent_query = rag_answer['result']
         # print("\n \n The RAG based answer is \n \n", agent_query)
-
+        print("\n \n these are embeddinggs----", embedding1)
         # answer, docs = rag_answer['result'], [] if args.hide_source else rag_answer['source_documents']
         
         # agent_input = input("\nEnter a query for agent: ")
