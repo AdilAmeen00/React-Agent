@@ -206,19 +206,22 @@ def run_model(query, model_app):
     model1 = SentenceTransformer('paraphrase-MiniLM-L3-v2')
     embedding1 = model1.encode("this is sentence").tolist()
 
-    if (model_app == 'Structured Text'):
+    if model_app == 'Structured Text':
         docs = db.similarity_search(query)
         # print("The answer based on Text matching search is \n", docs[0].page_content)
         return docs[0].page_content
-    elseif (model_app == 'Unstructured Text'):
+    elif model_app == 'Unstructured Text':
         rag_answer = rag_pipeline(query)
         agent_query = rag_answer['result']
         return agent_query
-    elseif(model_app == 'Word2Vec'):
+    elif model_app == 'Word2Vec':
         rag_answer = rag_pipeline(query)
         agent_query = rag_answer['result']
-        combined_answer = agent("Answer the question with the context provided"+agent_query)
+        combined_answer = agent("Answer the question with the context provided" + agent_query)
         return combined_answer['output']
+    else:
+        return "Invalid model_app value"
+
     
     # try:
     # #    query_db = input(" \n Ask a query to your vector database: ")
