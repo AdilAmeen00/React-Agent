@@ -199,13 +199,13 @@ def run_model(query):
 
 
     try:
-        query_db = input(" \n Ask a query to your vector database: ")
+    #    query_db = input(" \n Ask a query to your vector database: ")
     #   query_db = "What are the problems while connecting athena to S3?"
-        docs = db.similarity_search(query_db)
-        print("The answer based on Text matching search is \n", docs[0].page_content)
+        docs = db.similarity_search(query)
+        # print("The answer based on Text matching search is \n", docs[0].page_content)
 
-        print("\n \n Loading........setting up query console \n")
-        query = input(" \n Ask a question to an AI powered Assistant: ")
+        # print("\n \n Loading........setting up query console \n")
+        # query = input(" \n Ask a question to an AI powered Assistant: ")
 
         # if query == "exit":
         #     break  # break out of the while loop , this is error becasue
@@ -213,7 +213,7 @@ def run_model(query):
         # Generate text based on the input query
         rag_answer = rag_pipeline(query)
         agent_query = rag_answer['result']
-        print("\n \n The RAG based answer is \n \n", agent_query)
+        # print("\n \n The RAG based answer is \n \n", agent_query)
 
         # answer, docs = rag_answer['result'], [] if args.hide_source else rag_answer['source_documents']
         
@@ -223,11 +223,11 @@ def run_model(query):
         # print("agent answer", agent_answer)
         # print("answer -----> ",answer)
         
-        print("\n \n Processing........RAG ouput is being fed to agent \n \n ")
+        # print("\n \n Processing........RAG ouput is being fed to agent \n \n ")
       # print(str(agent_query))
         combined_answer = agent("Answer the question with the context provided"+agent_query)  # str(agent_query) is not working
 
-        print("\n A thoughtfull answer From the AI assistant is \n \n \n ", combined_answer['output'])
+        # print("\n A thoughtfull answer From the AI assistant is \n \n \n ", combined_answer['output'])
         return combined_answer['output']
     except Exception as e:
         return {'error': str(e)}
