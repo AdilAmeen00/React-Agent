@@ -107,7 +107,7 @@ def run_model(query):
     # initialize output parser for agent
     parser = OutputParser()
 
-    Set quantization configuration to load large model with less GPU memory  - Cannot use quantization in Windows
+    # Set quantization configuration to load large model with less GPU memory  - Cannot use quantization in Windows
     bnb_config = transformers.BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_quant_type='nf4',
