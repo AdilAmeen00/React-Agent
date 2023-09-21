@@ -216,6 +216,7 @@ def run_model(query):
         
         # Generate text based on the input query
         rag_answer = rag_pipeline(query)
+        print(rag_answer, "\n")
         agent_query = rag_answer['result']
         # print("\n \n The RAG based answer is \n \n", agent_query)
 
