@@ -220,6 +220,7 @@ def run_model(query, model_app):
         rag_answer = rag_pipeline(query)
         agent_query = rag_answer['result']
         combined_answer = agent("Answer the question with the context provided" + agent_query)
+        print(combined_answer['output'])
         return combined_answer['output']
     else:
         return "Invalid model_app value"
