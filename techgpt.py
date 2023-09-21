@@ -206,37 +206,51 @@ def run_model(query):
     model1 = SentenceTransformer('paraphrase-MiniLM-L3-v2')
     embedding1 = model1.encode("this is sentence").tolist()
 
-    try:
-    #    query_db = input(" \n Ask a query to your vector database: ")
-    #   query_db = "What are the problems while connecting athena to S3?"
+    if (model_app == 'Structured Text'):
         docs = db.similarity_search(query)
         # print("The answer based on Text matching search is \n", docs[0].page_content)
-
-        # print("\n \n Loading........setting up query console \n")
-        # query = input(" \n Ask a question to an AI powered Assistant: ")
-
-        # if query == "exit":
-        #     break  # break out of the while loop , this is error becasue
-        
-        # Generate text based on the input query
+        return docs[0].page_content
+    elseif (model_app == 'Unstructured Text'):
         rag_answer = rag_pipeline(query)
-        print(rag_answer, "\n")
         agent_query = rag_answer['result']
-        # print("\n \n The RAG based answer is \n \n", agent_query)
-        print("\n \n these are embeddinggs----", embedding1)
-        # answer, docs = rag_answer['result'], [] if args.hide_source else rag_answer['source_documents']
-        
-        # agent_input = input("\nEnter a query for agent: ")
-        # agent_answer = agent(agent_input)
-
-        # print("agent answer", agent_answer)
-        # print("answer -----> ",answer)
-        
-        # print("\n \n Processing........RAG ouput is being fed to agent \n \n ")
-      # print(str(agent_query))
-        combined_answer = agent("Answer the question with the context provided"+agent_query)  # str(agent_query) is not working
-
-        # print("\n A thoughtfull answer From the AI assistant is \n \n \n ", combined_answer['output'])
+        return agent_query
+    elseif(model_app == 'Word2Vec'):
+        rag_answer = rag_pipeline(query)
+        agent_query = rag_answer['result']
+        combined_answer = agent("Answer the question with the context provided"+agent_query)
         return combined_answer['output']
-    except Exception as e:
-        return {'error': str(e)}
+    
+    # try:
+    # #    query_db = input(" \n Ask a query to your vector database: ")
+    # #   query_db = "What are the problems while connecting athena to S3?"
+    #     docs = db.similarity_search(query)
+    #     # print("The answer based on Text matching search is \n", docs[0].page_content)
+
+    #     # print("\n \n Loading........setting up query console \n")
+    #     # query = input(" \n Ask a question to an AI powered Assistant: ")
+
+    #     # if query == "exit":
+    #     #     break  # break out of the while loop , this is error becasue
+        
+    #     # Generate text based on the input query
+    #     rag_answer = rag_pipeline(query)
+    #     print(rag_answer, "\n")
+    #     agent_query = rag_answer['result']
+    #     # print("\n \n The RAG based answer is \n \n", agent_query)
+    #     print("\n \n these are embeddinggs----", embedding1)
+    #     # answer, docs = rag_answer['result'], [] if args.hide_source else rag_answer['source_documents']
+        
+    #     # agent_input = input("\nEnter a query for agent: ")
+    #     # agent_answer = agent(agent_input)
+
+    #     # print("agent answer", agent_answer)
+    #     # print("answer -----> ",answer)
+        
+    #     # print("\n \n Processing........RAG ouput is being fed to agent \n \n ")
+    #   # print(str(agent_query))
+    #     combined_answer = agent("Answer the question with the context provided"+agent_query)  # str(agent_query) is not working
+
+    #     # print("\n A thoughtfull answer From the AI assistant is \n \n \n ", combined_answer['output'])
+    #     return combined_answer['output']
+    # except Exception as e:
+    #     return {'error': str(e)}
