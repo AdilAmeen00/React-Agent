@@ -14,7 +14,8 @@ def chat():
     print("chat route called")
     try:
         message = request.form['message']
-        response = techgpt.run_model(message)
+        model_app = request.form['message']
+        response = techgpt.run_model(message, model_app)
         # print("this is flask print",response)
         print("result",response)
         return jsonify({'response': response})
