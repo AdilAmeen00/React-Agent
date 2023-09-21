@@ -119,8 +119,8 @@
         <input id="input" class="message-input" type="text" placeholder="Type your query here"
             onkeydown="if(event.keyCode==13)sendMessage()">
         <select id="select-model"  name="modal" aria-placeholder="Select the model">
-            <option value="Structured Text">Structured Text</option>
-            <option value="Unstructured text">Unstructured text</option>
+            <option value="Structured">Structured Text</option>
+            <option value="Unstructured">Unstructured text</option>
             <option value="Word2vec">Word2vec</option>
         </select>
     </div>
@@ -141,7 +141,7 @@
             input.value = '';
             fetch('/chat', {
                 method: 'POST',
-                body: new URLSearchParams({'message': message}),
+                body: new URLSearchParams({'message': message, 'modelApp': model}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
