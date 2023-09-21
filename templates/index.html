@@ -136,7 +136,7 @@
             var model = select.value;
             chatbox.innerHTML += '<div class="user-message"><div class="user-query"><div class="user-tag"><b>User: </b></div><div style="word-break: break-word;">'+ message +'</div></div><div class="modal-tag">'+model+'</div></div>'
             setTimeout(function() {
-                chatbox.innerHTML += '<div class="ai-message" id="ai-message-' + count+ '"><span><b>Assistant: </b></span><img src="three-dots.svg" class="loader"/><div class="ai-response"></div></div>'
+                chatbox.innerHTML += '<div class="ai-message" id="ai-message-' + count+ '"><span><b>Assistant: </b></span><img src="https://github.com/SamHerbert/SVG-Loaders/blob/master/svg-loaders/three-dots.svg" class="loader"/><div class="ai-response"></div></div>'
             }, 500);
             input.value = '';
             fetch('/chat', {
