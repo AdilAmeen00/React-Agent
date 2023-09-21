@@ -150,9 +150,9 @@ def run_model(query):
     
     args = parse_arguments()
     embeddings = HuggingFaceEmbeddings(model_name=embeddings_model_name)
-    print("DB work started")
+    # print("DB work started")
     db = Chroma(persist_directory=persist_directory, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)
-    print("db work ended")
+    # print("db work ended")
     retriever = db.as_retriever()
     # docs = db.similarity_search(query)
     callbacks = [] if args.mute_stream else [StreamingStdOutCallbackHandler()]
@@ -194,7 +194,7 @@ def run_model(query):
     human_msg = instruction + "\nUser: {input}"
 
     agent.agent.llm_chain.prompt.messages[2].prompt.template = human_msg
-    agent.agent.llm_chain.prompt
+    # agent.agent.llm_chain.prompt
 
     rag_pipeline = RetrievalQA.from_chain_type(
     llm=llm, chain_type='stuff',
