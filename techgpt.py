@@ -29,7 +29,7 @@ from langchain.output_parsers.json import parse_json_markdown
 from langchain.schema import AgentAction, AgentFinish
 from langchain.agents import initialize_agent
 from langchain.chains import RetrievalQA
-import chromadbw
+import chromadb
 
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.agents import load_tools
