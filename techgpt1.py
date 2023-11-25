@@ -41,6 +41,7 @@ from langchain.schema import AgentAction, AgentFinish
 from langchain.agents import initialize_agent
 import argparse
 from langchain.chat_models import ChatOpenAI
+from langchain.llms import OpenAI
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Device:", device)
@@ -210,9 +211,7 @@ def run_model(query, model_app):
     model_name = "gpt-3.5-turbo"
     llm_open = ChatOpenAI(model_name=model_name)
 
-    retrieval_chain_open = RetrievalQA.from_chain_type(
-    llm=llm_open, chain_type='stuff',
-    retriever=retriever, return_source_documents= not args.hide_source)
+    retrieval_chain_open = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type='stuff', retriever=retriever, return_source_documents=True)
 
     # from sentence_transformers import SentenceTransformer
 
@@ -229,7 +228,7 @@ def run_model(query, model_app):
         # rag_answer = rag_pipeline(query)
         # agent_query = rag_answer['result']
         # return agent_query
-        aa = retrieval_chain_open.run(query)
+        aa = retrieval_chain_open({"query": query})
         print("This is aa output", aa)
 
     elif model_app == 'Word2Vec':   # change this to Cognitive search
