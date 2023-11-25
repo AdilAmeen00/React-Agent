@@ -221,11 +221,11 @@ def run_model(query, model_app):
 
     # model_app = 'Unstructured Text'
 
-    if model_app == 'Unstructured': # change this to Vector search
+    if model_app == 'PrivateLLM': # change this to Vector search
         docs = db.similarity_search(query)
         # print("The answer based on Text matching search is \n", docs[0].page_content)
         return docs[0].page_content
-    elif model_app == 'Structured':  # change this to Vector and Rag search
+    elif model_app == 'ChatGPT':  # change this to Vector and Rag search
         # rag_answer = rag_pipeline(query)
         # agent_query = rag_answer['result']
         # return agent_query
@@ -233,7 +233,7 @@ def run_model(query, model_app):
         print("This is aa output", aa)
         return aa['result']
 
-    elif model_app == 'Word2Vec':   # change this to Cognitive search
+    elif model_app == 'BedRock':   # change this to Cognitive search
         rag_answer = rag_pipeline(query)
         agent_query = rag_answer['result']
         combined_answer = agent("Answer the question with the context provided" + agent_query)
