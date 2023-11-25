@@ -206,7 +206,7 @@ def run_model(query, model_app):
 
     # for openai
 
-    os.environ["OPENAI_API_KEY"] = "keysk-N4NJFOEvv97sW54c3CeHT3BlbkFJ6HomzJG4zLEI3f3YGyMV"
+    os.environ["OPENAI_API_KEY"] = "EE36keysk-N4NJFOEvv97sW54c3CeHT3BlbkFJ6HomzJG4zLEI3f3YGyMV"
 
 
     model_name = "gpt-3.5-turbo"
