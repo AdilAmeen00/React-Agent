@@ -231,6 +231,7 @@ def run_model(query, model_app):
         # return agent_query
         aa = retrieval_chain_open({"query": query})
         print("This is aa output", aa)
+        return aa['result']
 
     elif model_app == 'Word2Vec':   # change this to Cognitive search
         rag_answer = rag_pipeline(query)
